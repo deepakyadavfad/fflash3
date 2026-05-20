@@ -84,15 +84,13 @@ int dimen notification_subtext_size 0x7f030013
 int dimen notification_top_pad 0x7f030014
 int dimen notification_top_pad_large_text 0x7f030015
 int drawable fh 0x7f040001
-int drawable gpt 0x7f040002
 int drawable ic_call_answer 0x7f040003
 int drawable ic_call_answer_low 0x7f040004
 int drawable ic_call_answer_video 0x7f040005
 int drawable ic_call_answer_video_low 0x7f040006
 int drawable ic_call_decline 0x7f040007
 int drawable ic_call_decline_low 0x7f040008
-int drawable ic_launcher_background 0x7f040009
-int drawable ic_launcher_foreground 0x7f04000a
+int drawable krishna_ji 0x7f040018
 int drawable notification_action_background 0x7f04000b
 int drawable notification_bg 0x7f04000c
 int drawable notification_bg_low 0x7f04000d
@@ -240,6 +238,7 @@ int layout notification_template_icon_group 0x7f070006
 int layout notification_template_part_chronometer 0x7f070007
 int layout notification_template_part_time 0x7f070008
 int mipmap ic_launcher 0x7f080000
+int mipmap ic_launcher_foreground 0x7f080002
 int mipmap ic_launcher_round 0x7f080001
 int string androidx_compose_foundation_autofill 0x7f090000
 int string androidx_compose_ui_autofill 0x7f090001

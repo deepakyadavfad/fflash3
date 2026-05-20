@@ -102,7 +102,7 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("FlashCards") }
+                title = { Text("Jai Shri 🙏❤️") }
             )
         }
     ) { padding ->
@@ -167,7 +167,7 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
             }
 
             Image(
-                painter = painterResource(id = R.drawable.gpt),
+                painter = painterResource(id = R.drawable.krishna_ji),
                 contentDescription = "Flashcard related image",
                 modifier = Modifier
                     .fillMaxWidth()
