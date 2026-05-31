@@ -15,14 +15,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.fflash3.ui.theme.Fflash3Theme
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
@@ -63,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
             Toast.makeText(
                 this,
-                "Loaded ${flashcards.size} flashcards!",
+                "Loaded ${flashcards.size} messages!",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -82,7 +85,11 @@ class MainActivity : ComponentActivity() {
 fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
     val flashcards = MainActivity.flashcards
 
+    val normalFont = FontFamily.SansSerif
+    val messageFont = FontFamily.Cursive
+
     var currentCard by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var currentIndex by remember { mutableStateOf(0) }
     var showingAnswer by remember { mutableStateOf(false) }
 
     val filePickerLauncher =
@@ -92,7 +99,8 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
                     onFilePicked(uri)
 
                     if (flashcards.isNotEmpty()) {
-                        currentCard = flashcards.random()
+                        currentIndex = 0
+                        currentCard = flashcards[currentIndex]
                         showingAnswer = false
                     }
                 }
@@ -102,7 +110,13 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Jai Shri 🙏❤️") }
+                title = {
+                    Text(
+                        text = "I have messages for you di❤️😊",
+                        fontFamily = normalFont,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
             )
         }
     ) { padding ->
@@ -111,10 +125,27 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.33f)
+                    .padding(top = 0.dp, bottom = 16.dp),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.photo),
+                    contentDescription = "Flashcard related image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(16f / 9f),
+                    contentScale = ContentScale.Crop
+                )
+            }
 
             Button(
                 onClick = {
@@ -124,10 +155,14 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
                     filePickerLauncher.launch(intent)
                 }
             ) {
-                Text("Load Flashcards File")
+                Text(
+                    text = "Select the message file",
+                    fontFamily = normalFont,
+                    fontWeight = FontWeight.Medium
+                )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(
                 text = when {
@@ -135,8 +170,18 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
                     showingAnswer -> currentCard!!.second
                     else -> currentCard!!.first
                 },
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(24.dp)
+                color = when {
+                    currentCard == null -> Color.Gray
+                    showingAnswer -> Color(0xFF2E7D32)
+                    else -> Color(0xFFC62828)
+                },
+                fontFamily = messageFont,
+                fontSize = 32.sp,
+                lineHeight = 40.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
             )
 
             Row(
@@ -149,32 +194,34 @@ fun FlashCardApp(onFilePicked: (Uri) -> Unit) {
                         }
                     }
                 ) {
-                    Text("Show Answer")
+                    Text(
+                        text = "What is it?",
+                        fontFamily = normalFont,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
 
                 Button(
                     onClick = {
                         if (flashcards.isNotEmpty()) {
-                            currentCard = flashcards.random(
-                                Random(System.currentTimeMillis())
-                            )
+                            currentIndex++
+
+                            if (currentIndex >= flashcards.size) {
+                                currentIndex = 0
+                            }
+
+                            currentCard = flashcards[currentIndex]
                             showingAnswer = false
                         }
                     }
                 ) {
-                    Text("Next Card")
+                    Text(
+                        text = "Next message please",
+                        fontFamily = normalFont,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
             }
-
-            Image(
-                painter = painterResource(id = R.drawable.krishna_ji),
-                contentDescription = "Flashcard related image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .padding(top = 16.dp),
-                contentScale = ContentScale.Crop
-            )
         }
     }
 }
